@@ -67,10 +67,13 @@ service.h
 service_impl_curl.c
 ```
 
+To compile `test0` with the curl implementation:
+
     $ gcc -o service_impl_curl.o -c service_impl_curl.c
     $ gcc -o test0.o -c test0.c
     $ gcc -o test0 test0.o service_impl_curl.o -lcurl
     $ valgrind ./test0
+    ...
     $ echo $?
     0
 
@@ -107,6 +110,7 @@ int main(int argc, char * argv[]) {
     $ gcc -o test1.o -c test1.c
     $ gcc -o test1 test1.o service_impl_curl.o -lcurl
     $ valgrind ./test1
+    ...
     $ echo $?
     0
 
