@@ -46,7 +46,16 @@ int main(int argc, char * argv[]) {
 }
 ```
 
-In traditional Unix style success is indicated by an exit code of 0.
+In traditional Unix style success is indicated by an exit code of 0. The exit
+code may be used by testing frameworks or scripts to determine test success.
+In the bash shell the return code may be printed with `echo $?`:
+
+    $ true
+    $ echo $?
+    0
+    $ false
+    $ echo $?
+    1
 
 Of course this will not compile without the implementation of service, for
 completeness there are multiple implementations that will be used for
@@ -62,8 +71,11 @@ service_impl_curl.c
     $ gcc -o test0.o -c test0.c
     $ gcc -o test0 test0.o service_impl_curl.o -lcurl
     $ valgrind ./test0
+    $ echo $?
+    0
 
-Valgrind is used here to check for leaks.
+Valgrind is used here to check for leaks. The last echo will print the exit
+code.
 
 `test0` is fine as it does not actually make a network call and so it is
 appropriate to be included in the test suite as-is.
@@ -95,6 +107,8 @@ int main(int argc, char * argv[]) {
     $ gcc -o test1.o -c test1.c
     $ gcc -o test1 test1.o service_impl_curl.o -lcurl
     $ valgrind ./test1
+    $ echo $?
+    0
 
 This test will make a network call to `https://google.com` which is great for
 when the programme is in use but not so great for testing.
