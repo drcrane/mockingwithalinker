@@ -8,20 +8,26 @@ For the example code to work `gcc` and `curl-dev` are required.
 
 ## Test Driven Development
 
-The basic philosophy behind ***tdd*** is that a test will dictate how the code
-is written. When writing code only that which is required to satisfy the test
-should be written.
+The basic philosophy behind **tdd** is that code should only be written to
+satisfy the test. So it follows that when performing **tdd** tests should be
+written before any implementation, of course a test without an implementation
+to rely upon will not compile but that is ok because a test that does not
+compile is a failing test. The underlying aim of writing the test before the
+implementation is to ensure code coverage. Complete code coverage can
+sometimes be challenging without mocked functions.
 
-Ultimate ***tdd*** means to write the tests before writing any code at all: if
-the test will not compile then the test has failed.
+One way this can be accomplished is to write an application as a library, the
+tests and the application may then be linked with the library allowing the
+application executables and the tests to be created.
 
-## Replacing the Object Code at Link Time
+In **tdd** style implementation code should not be written unless there is a
+test to test it... but at least an API must be defined upon which a test can
+be written.
 
-The obvious thing to do is replace the code at link time, this is easy to
-accomplish and requires very little work:
+The portion of the library under development is intended to download some data
+from a server. The API for this component is defined in `service.h`.
 
-The library the application is using provides a simple function to get some
-data from an HTTP server:
+### Using the Library
 
 First the library must be initialised by calling `void * service_init();`
 Then use the returned context to request the data from the server
@@ -29,7 +35,7 @@ Then use the returned context to request the data from the server
 free any returned data `void service_free_data(char * data);`
 finally, clean up: `service_dispose(void * context);`.
 
-To follow ***tdd*** first the test should be written in `test.c`:
+To follow **tdd** first the test should be written in `test0.c`:
 
 ```c
 #include "service.h"
@@ -46,16 +52,19 @@ int main(int argc, char * argv[]) {
 }
 ```
 
-In traditional Unix style success is indicated by an exit code of 0. The exit
-code may be used by testing frameworks or scripts to determine test success.
-In the bash shell the return code may be printed with `echo $?`:
+Success or failure indications: In traditional Unix style success is indicated
+by an exit code of 0. The exit code may be used by testing frameworks or
+scripts to determine test success. In the bash shell the return code may be
+printed with `echo $?`:
 
-    $ true
-    $ echo $?
-    0
-    $ false
-    $ echo $?
-    1
+```sh
+$ true
+$ echo $?
+0
+$ false
+$ echo $?
+1
+```
 
 Of course this will not compile without the implementation of service, for
 completeness there are multiple implementations that will be used for
