@@ -78,5 +78,6 @@ void service_free_data(char * data) {
 void service_dispose(void * context) {
 	CURL * curl = (CURL *)context;
 	curl_easy_cleanup(curl);
+	curl_global_cleanup();
 }
 
