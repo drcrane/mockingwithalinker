@@ -13,8 +13,9 @@ satisfy the test. So it follows that when performing **tdd** tests should be
 written before any implementation, of course a test without an implementation
 to rely upon will not compile but that is ok because a test that does not
 compile is a failing test. The underlying aim of writing the test before the
-implementation is to ensure code coverage. Complete code coverage can
-sometimes be challenging without mocked functions.
+implementation is to help focus the mind to a specific aim and ensure code
+coverage. Complete code coverage can sometimes be challenging without mocked
+functions.
 
 One way this can be accomplished is to write an application as a library, the
 tests and the application may then be linked with the library allowing the
